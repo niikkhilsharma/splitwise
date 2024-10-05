@@ -8,7 +8,7 @@ const GroupPage = async () => {
   const session = await auth();
 
   return (
-    <div className="p-4">
+    <div>
       <h3 className="text-lg font-semibold">
         Welcome to the Splitwise, {session?.user.name?.split(" ")[0]}!
       </h3>

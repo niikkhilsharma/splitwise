@@ -3,6 +3,7 @@ import { auth } from "@/auth";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { UserRoundPlus } from "lucide-react";
+import SearchPage from "@/components/search-page";
 
 const FriendsPage = async () => {
   const session = await auth();
@@ -25,6 +26,9 @@ const FriendsPage = async () => {
         <p className="text-center tracking-wide text-gray-600">
           As you use Splitwise, friends and group mates will show here
         </p>
+      </div>
+
+      <SearchPage className="mx-auto mt-4 flex h-full items-center justify-center">
         <Button
           className="flex items-center justify-center gap-2 border-green-800 py-6 text-lg text-green-800"
           variant={"outline"}
@@ -32,7 +36,7 @@ const FriendsPage = async () => {
           <UserRoundPlus className="h-5 w-5" />
           Add more friends
         </Button>
-      </div>
+      </SearchPage>
     </div>
   );
 };

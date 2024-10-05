@@ -39,10 +39,8 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <main className="flex h-svh flex-col justify-between">
-            <div className="h-full">
-              <TopMenuBar />
-              {children}
-            </div>
+            <TopMenuBar />
+            <div className="h-full p-4">{children}</div>
             <BottomMenuBar />
           </main>
         </ThemeProvider>

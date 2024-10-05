@@ -1,47 +1,63 @@
-import { google } from "googleapis";
 import { auth } from "@/auth";
-import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
+import { prisma } from "@/lib/prisma";
 
 export async function GET() {
   const session = await auth();
-  console.log("completed session");
+  if (!session) {
+    return NextResponse.json(
+      { message: "No session found" },
+      { status: 401 }, // Unauthorized
+    );
+  }
 
-  const user = await prisma.account.findMany({
-    where: { userId: session?.user?.id, provider: "google" },
-  });
-  const accessToken = user[0].access_token;
+  try {
+    const user = await prisma.account.findMany({
+      where: { userId: session?.user?.id, provider: "google" },
+    });
 
-  console.log("completed user and accessToken");
+    if (!user || !user[0]?.access_token) {
+      return NextResponse.json(
+        { message: "No access token found" },
+        { status: 403 }, // Forbidden
+      );
+    }
 
-  const getRequest = await fetch(
-    "https://people.googleapis.com/v1/people/me/connections?personFields=names,emailAddresses,phoneNumbers&pageSize=1000",
-    {
-      headers: {
-        Authorization: "Bearer " + `${accessToken}`,
+    const accessToken = user[0].access_token;
+    console.log(accessToken);
+
+    // Make the request to Google People API
+    const getRequest = await fetch(
+      "https://people.googleapis.com/v1/people/me/connections?personFields=names,emailAddresses,phoneNumbers,photos&pageSize=1000",
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
       },
-    },
-  );
+    );
 
-  const response = await getRequest.json();
-  console.log("response", response);
-  console.log("response", response.connections.length);
+    if (!getRequest.ok) {
+      throw new Error(`Error fetching data: ${getRequest.statusText}`);
+    }
 
-  // const getRequest2 = await fetch(
-  //   "https://people.googleapis.com/v1/people/me/connections?personFields=names,emailAddresses",
-  //   {
-  //     headers: {
-  //       Authorization: `Bearer ${session?.sessionToken}`,
-  //     },
-  //   },
-  // );
-  // const response2 = await getRequest2.json();
-  // console.log("response2", response2);
+    const response = await getRequest.json();
+    console.log("response", response);
+    console.log("response", response.connections.length);
 
-  return NextResponse.json({
-    user: user,
-    session: session,
-    response,
-    // response2,
-  });
+    return NextResponse.json({
+      user: user,
+      session: session,
+      response,
+    });
+  } catch (error: any) {
+    console.error("Error: ", error);
+    return NextResponse.json(
+      {
+        session: session,
+        message: "Something went wrong!",
+        error: error.message, // Return error message for better debugging
+      },
+      { status: 500 },
+    );
+  }
 }
