@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { ReceiptText } from "lucide-react";
 import { ReloadIcon } from "@radix-ui/react-icons";
+import { signIn } from "@/auth";
 
 export default function Home() {
   return (
@@ -9,6 +10,14 @@ export default function Home() {
         <ReceiptText />
         Add expense
       </Button>
+      <form
+        action={async () => {
+          "use server";
+          await signIn("google");
+        }}
+      >
+        <button type="submit">Signin with Google</button>
+      </form>
     </div>
   );
 }

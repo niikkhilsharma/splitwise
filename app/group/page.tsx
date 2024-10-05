@@ -2,9 +2,9 @@ import React from "react";
 import { auth } from "@/auth";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { UserRoundPlus } from "lucide-react";
+import { Users } from "lucide-react";
 
-const FriendsPage = async () => {
+const GroupPage = async () => {
   const session = await auth();
 
   return (
@@ -23,18 +23,18 @@ const FriendsPage = async () => {
           />
         </div>
         <p className="text-center tracking-wide text-gray-600">
-          As you use Splitwise, friends and group mates will show here
+          Splitwise groups you create or are added to will show here
         </p>
         <Button
           className="flex items-center justify-center gap-2 border-green-800 py-6 text-lg text-green-800"
           variant={"outline"}
         >
-          <UserRoundPlus className="h-5 w-5" />
-          Add more friends
+          <Users className="h-5 w-5" />
+          Start a new group
         </Button>
       </div>
     </div>
   );
 };
 
-export default FriendsPage;
+export default GroupPage;
