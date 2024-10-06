@@ -24,7 +24,6 @@ export async function GET() {
     }
 
     const accessToken = user[0].access_token;
-    console.log(accessToken);
 
     // Make the request to Google People API
     const getRequest = await fetch(
@@ -41,7 +40,6 @@ export async function GET() {
     }
 
     const response = await getRequest.json();
-    console.log("response", response);
     console.log("response", response.connections.length);
 
     return NextResponse.json({
@@ -49,13 +47,14 @@ export async function GET() {
       session: session,
       response,
     });
-  } catch (error: any) {
+  } catch (error) {
+    const err = error as Error;
     console.error("Error: ", error);
     return NextResponse.json(
       {
         session: session,
         message: "Something went wrong!",
-        error: error.message, // Return error message for better debugging
+        error: err?.message, // Return error message for better debugging
       },
       { status: 500 },
     );

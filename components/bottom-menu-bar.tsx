@@ -1,12 +1,10 @@
-import React from "react";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Activity, User, UserRound, Users } from "lucide-react";
+import { Activity, UserRound, Users } from "lucide-react";
 import { auth } from "@/auth";
 
 const BottomMenuBar = async () => {
   const session = await auth();
-  console.log(session);
 
   return (
     <div className="flex items-center justify-between rounded-md border-t px-4 py-2">

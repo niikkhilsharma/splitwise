@@ -10,7 +10,8 @@ const GroupPage = async () => {
   return (
     <div>
       <h3 className="text-lg font-semibold">
-        Welcome to the Splitwise, {session?.user.name?.split(" ")[0]}!
+        Welcome to the Splitwise,{" "}
+        {session?.user?.name?.split(" ")[0] || "Guest"}!
       </h3>
       <div className="mx-auto mt-8 flex max-w-64 flex-col items-center justify-center space-y-4">
         <div className="aspect-square rounded-full bg-gray-200">

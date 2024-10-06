@@ -1,21 +1,21 @@
 "use client";
-
 import React, { useState, useEffect } from "react";
-import { cn } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Command,
-  CommandDialog,
   CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
   CommandList,
-  CommandSeparator,
-  CommandShortcut,
 } from "@/components/ui/command";
-import { Button } from "./ui/button";
 import { ArrowLeftIcon } from "@radix-ui/react-icons";
+
+interface Contact {
+  photos?: { url: string }[]; // Assuming each contact has an array of photos with a `url` property
+  names: { displayName: string }[]; // Assuming each contact has an array of names with a `displayName` property
+  phoneNumbers?: { canonicalForm: string }[]; // Assuming each contact may have phone numbers
+}
 
 const SearchPage = ({
   children,
@@ -25,7 +25,7 @@ const SearchPage = ({
   className: string;
 }) => {
   const [show, setShow] = useState<boolean>(false);
-  const [contacts, setContacts] = useState([]);
+  const [contacts, setContacts] = useState<Contact[]>([]);
 
   useEffect(() => {
     async function getContacts() {
@@ -52,11 +52,13 @@ const SearchPage = ({
             <CommandList className="max-h-full">
               <CommandEmpty>No results found.</CommandEmpty>
               <CommandGroup>
-                {contacts.map((value) => (
-                  <CommandItem>
+                {contacts.map((value, indx) => (
+                  <CommandItem key={indx}>
                     <div className="flex items-center gap-2">
                       <Avatar className="h-7 w-7">
-                        <AvatarImage src={value.photos[0].url as string} />
+                        <AvatarImage
+                          src={(value?.photos?.[0].url as string) || ""}
+                        />
                         <AvatarFallback>CN</AvatarFallback>
                       </Avatar>
                       <div>
