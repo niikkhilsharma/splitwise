@@ -1,5 +1,6 @@
 "use client";
-import React, { useState, useEffect } from "react";
+
+import React, { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Command,
@@ -10,34 +11,19 @@ import {
   CommandList,
 } from "@/components/ui/command";
 import { ArrowLeftIcon } from "@radix-ui/react-icons";
-
-interface Contact {
-  photos?: { url: string }[]; // Assuming each contact has an array of photos with a `url` property
-  names: { displayName: string }[]; // Assuming each contact has an array of names with a `displayName` property
-  phoneNumbers?: { canonicalForm: string }[]; // Assuming each contact may have phone numbers
-}
+import { Contact } from "@/utils/types";
 
 const SearchPage = ({
   children,
+  filteredContacts,
   className,
 }: {
   children: React.ReactNode;
+  filteredContacts: Contact[];
   className: string;
 }) => {
   const [show, setShow] = useState<boolean>(false);
-  const [contacts, setContacts] = useState<Contact[]>([]);
-
-  useEffect(() => {
-    async function getContacts() {
-      const response = await fetch("/api/contacts");
-      const data = await response.json();
-      const userContacts = data.response.connections;
-      setContacts(userContacts);
-    }
-    if (show === true) {
-      getContacts();
-    }
-  }, [show]);
+  const [selectedContact, setSelectedContact] = useState<Contact>();
 
   return (
     <div className={className}>
@@ -47,12 +33,17 @@ const SearchPage = ({
             <CommandInput
               placeholder="Type a command or search..."
               className="py-6"
-              icon={<ArrowLeftIcon onClick={() => setShow(false)} />}
+              icon={
+                <ArrowLeftIcon
+                  className="hover:cursor-pointer"
+                  onClick={() => setShow((prev) => !prev)}
+                />
+              }
             />
             <CommandList className="max-h-full">
-              <CommandEmpty>No results found.</CommandEmpty>
+              <CommandEmpty>Loading Please wait...</CommandEmpty>
               <CommandGroup>
-                {contacts.map((value, indx) => (
+                {filteredContacts.map((value, indx) => (
                   <CommandItem key={indx}>
                     <div className="flex items-center gap-2">
                       <Avatar className="h-7 w-7">
@@ -62,10 +53,16 @@ const SearchPage = ({
                         <AvatarFallback>CN</AvatarFallback>
                       </Avatar>
                       <div>
-                        <p>{value?.names[0].displayName}</p>
                         <p>
-                          {value.phoneNumbers
+                          {value?.names
+                            ? value?.names[0].displayName
+                            : "Not-Provided"}
+                        </p>
+                        <p>
+                          {value?.phoneNumbers && value?.phoneNumbers[0]?.value
                             ? value?.phoneNumbers[0]?.canonicalForm
+                              ? value?.phoneNumbers[0]?.canonicalForm
+                              : value?.phoneNumbers[0]?.value
                             : "no"}
                         </p>
                       </div>
@@ -77,6 +74,7 @@ const SearchPage = ({
           </Command>
         </div>
       )}
+
       <div onClick={() => setShow(true)}>{children}</div>
     </div>
   );

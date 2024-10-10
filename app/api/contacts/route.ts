@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
 export async function GET() {
+  console.log("request recieved from frontend");
   const session = await auth();
   if (!session) {
     return NextResponse.json(
@@ -42,10 +43,30 @@ export async function GET() {
     const response = await getRequest.json();
     console.log("response", response.connections.length);
 
+    // Remove duplicates and sort contacts by names alphabetically
+    const seenPhones = new Set();
+
+    const uniqueContacts = response.connections
+      .filter((contact: any) => contact.names && contact.phoneNumbers)
+      .filter((contact: any) => {
+        const phone = contact.phoneNumbers?.[0]?.value;
+
+        if (phone && !seenPhones.has(phone)) {
+          seenPhones.add(phone);
+          return true;
+        }
+        return false; // Duplicate found
+      })
+      .sort((a: any, b: any) => {
+        const nameA = a.names[0]?.displayName?.toLowerCase() || "";
+        const nameB = b.names[0]?.displayName?.toLowerCase() || "";
+        return nameA.localeCompare(nameB);
+      });
+
     return NextResponse.json({
       user: user,
       session: session,
-      response,
+      response: { connections: uniqueContacts },
     });
   } catch (error) {
     const err = error as Error;

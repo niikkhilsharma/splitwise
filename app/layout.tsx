@@ -5,6 +5,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import TopMenuBar from "@/components/top-menu-bar";
 import BottomMenuBar from "@/components/bottom-menu-bar";
+import { Separator } from "@/components/ui/separator";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -40,7 +41,8 @@ export default function RootLayout({
         >
           <main className="flex h-svh flex-col justify-between">
             <TopMenuBar />
-            <div className="h-full p-4">{children}</div>
+            <Separator className="w-full" />
+            <div className="h-full">{children}</div>
             <BottomMenuBar />
           </main>
         </ThemeProvider>

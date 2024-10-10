@@ -5,7 +5,7 @@ import { MoveRight } from "lucide-react";
 
 export default async function Home() {
   return (
-    <div className="h-full">
+    <div className="h-full p-4">
       <h3 className="text-center text-2xl font-semibold text-gray-600">
         Welcome to SplitWise!
       </h3>

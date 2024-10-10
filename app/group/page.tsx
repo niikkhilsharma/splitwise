@@ -9,7 +9,7 @@ const GroupPage = async () => {
 
   return (
     <div>
-      <h3 className="text-lg font-semibold">
+      <h3 className="p-4 text-lg font-semibold">
         Welcome to the Splitwise,{" "}
         {session?.user?.name?.split(" ")[0] || "Guest"}!
       </h3>

@@ -7,7 +7,7 @@ const BottomMenuBar = async () => {
   const session = await auth();
 
   return (
-    <div className="flex items-center justify-between rounded-md border-t px-4 py-2">
+    <div className="flex items-center justify-between rounded-md border-t px-4 py-1">
       <Link
         href={"/group"}
         className="flex flex-col items-center justify-center"
@@ -33,7 +33,7 @@ const BottomMenuBar = async () => {
         href={"/accounts"}
         className="flex flex-col items-center justify-center"
       >
-        <Avatar className="h-7 w-7">
+        <Avatar className="h-6 w-6">
           <AvatarImage src={session?.user?.image as string} />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
