@@ -6,6 +6,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import TopMenuBar from "@/components/top-menu-bar";
 import BottomMenuBar from "@/components/bottom-menu-bar";
 import { Separator } from "@/components/ui/separator";
+import { Toaster } from "@/components/ui/toaster";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -43,6 +44,7 @@ export default function RootLayout({
             <TopMenuBar />
             <Separator className="w-full" />
             <div className="h-full">{children}</div>
+            <Toaster />
             <BottomMenuBar />
           </main>
         </ThemeProvider>

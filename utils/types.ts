@@ -1,7 +1,8 @@
 export type Contact = {
   resourceName: string;
   etag: string;
-  names?: Array<{
+  names: Array<{
+    // may be not every contact object has names.
     metadata: {
       primary: boolean;
       source: {
@@ -40,4 +41,10 @@ export type Contact = {
     type?: string;
     formattedType?: string;
   }>;
+};
+
+export type SplitType = {
+  splitTypeId: number;
+  description: string;
+  message: string;
 };
