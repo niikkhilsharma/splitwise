@@ -1,12 +1,11 @@
 "use client";
-
 import * as React from "react";
 import { type DialogProps } from "@radix-ui/react-dialog";
-import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import { Command as CommandPrimitive } from "cmdk";
 
 import { cn } from "@/lib/utils";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Search } from "lucide-react";
 
 const Command = React.forwardRef<
   React.ElementRef<typeof CommandPrimitive>,
@@ -38,26 +37,40 @@ const CommandDialog = ({ children, ...props }: DialogProps) => {
 const CommandInput = React.forwardRef<
   React.ElementRef<typeof CommandPrimitive.Input>,
   React.ComponentPropsWithoutRef<typeof CommandPrimitive.Input> & {
-    icon?: React.ReactNode;
+    icon?: boolean;
     iconClassName?: string;
+    cmdkInputWrapperClassName?: string;
   }
->(({ className, icon, iconClassName, ...props }, ref) => (
-  <div className="flex items-center border-b px-3" cmdk-input-wrapper="">
-    {icon ? (
-      <span className={cn("mr-2 h-4 w-4 shrink-0", iconClassName)}>{icon}</span>
-    ) : (
-      <MagnifyingGlassIcon className="mr-2 h-4 w-4 shrink-0 opacity-50" />
-    )}
-    <CommandPrimitive.Input
-      ref={ref}
+>(
+  (
+    {
+      cmdkInputWrapperClassName,
+      className,
+      icon = true,
+      iconClassName,
+      ...props
+    },
+    ref,
+  ) => (
+    <div
       className={cn(
-        "flex h-10 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-neutral-500 disabled:cursor-not-allowed disabled:opacity-50 dark:placeholder:text-neutral-400",
-        className,
+        "flex items-center border-b px-3",
+        cmdkInputWrapperClassName,
       )}
-      {...props}
-    />
-  </div>
-));
+      cmdk-input-wrapper=""
+    >
+      {icon && <Search className="mr-2 h-4 w-4 shrink-0 opacity-50" />}
+      <CommandPrimitive.Input
+        ref={ref}
+        className={cn(
+          "flex h-10 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-neutral-500 disabled:cursor-not-allowed disabled:opacity-50 dark:placeholder:text-neutral-400",
+          className,
+        )}
+        {...props}
+      />
+    </div>
+  ),
+);
 
 CommandInput.displayName = CommandPrimitive.Input.displayName;
 

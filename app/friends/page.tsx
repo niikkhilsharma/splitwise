@@ -36,7 +36,7 @@ const FriendsPage = async () => {
   const uniqueContacts: Contact[] = response.connections
     .filter((contact: any) => contact.names && contact.phoneNumbers)
     .filter((contact: any) => {
-      const phone = contact.phoneNumbers?.[0]?.value;
+      const phone = contact.phoneNumbers?.[0]?.canonicalForm;
 
       if (phone && !seenPhones.has(phone)) {
         seenPhones.add(phone);
