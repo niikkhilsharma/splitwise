@@ -3,7 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { ArrowBigDown, UserRoundPlus } from "lucide-react";
+import { UserRoundPlus } from "lucide-react";
 import { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import type { Contact } from "@/utils/types";
@@ -15,9 +15,9 @@ const SearchPage = dynamic(() => import("@/components/search-page"), {
 const FriendsPage = () => {
   const [contacts, setContacts] = useState<Contact[]>();
   const [user, setUser] = useState<{
-    name: String;
-    email: String;
-    image: String;
+    name: string;
+    email: string;
+    image: string;
   }>();
 
   useEffect(() => {
