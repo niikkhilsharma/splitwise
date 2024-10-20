@@ -1,7 +1,7 @@
 import NextAuth from "next-auth";
 import Google from "next-auth/providers/google";
 import { PrismaAdapter } from "@auth/prisma-adapter";
-import { prisma } from "./lib/prisma";
+import prisma from "./lib/prisma";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   adapter: PrismaAdapter(prisma),
@@ -27,7 +27,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         where: { userId: user.id, provider: "google" },
       });
 
-      if (googleAccount?.expires_at * 1000 < Date.now()) {
+      if (googleAccount?.expires_at!! * 1000 < Date.now()) {
         // If the access token has expired, try to refresh it
         try {
           // https://accounts.google.com/.well-known/openid-configuration

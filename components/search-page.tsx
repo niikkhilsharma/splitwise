@@ -11,7 +11,7 @@ import {
   CommandList,
 } from "@/components/ui/command";
 import { ArrowLeftIcon } from "@radix-ui/react-icons";
-import { Contact } from "@/utils/types";
+import type { Contact } from "@/utils/types";
 import { Input } from "./ui/input";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -66,7 +66,7 @@ const SearchPage = ({
   const router = useRouter();
 
   const [show, setShow] = useState<boolean>(false);
-  const [selectedContact, setSelectedContact] = useState<Contact | null>();
+  const [selectedContact, setSelectedContact] = useState<Contact | null>(null);
   const [splitId, setSplitId] = useState<number>(0);
   const [showSplitTypeScreen, setShowSplitTypeScreen] = useState<boolean>();
 

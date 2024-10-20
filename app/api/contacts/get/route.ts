@@ -1,6 +1,6 @@
 import { auth } from "@/auth";
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
+import prisma from "@/lib/prisma";
 
 export async function GET() {
   console.log("request recieved from frontend");
@@ -63,9 +63,14 @@ export async function GET() {
         return nameA.localeCompare(nameB);
       });
 
+    console.log("session--", session);
+
     return NextResponse.json({
-      user: user,
-      session: session,
+      user: {
+        name: session.user?.name,
+        email: session.user?.email,
+        image: session.user?.image,
+      },
       response: { connections: uniqueContacts },
     });
   } catch (error) {
