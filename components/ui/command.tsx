@@ -38,7 +38,7 @@ const CommandInput = React.forwardRef<
   React.ElementRef<typeof CommandPrimitive.Input>,
   React.ComponentPropsWithoutRef<typeof CommandPrimitive.Input> & {
     icon?: boolean;
-    iconClassName?: string;
+    // iconClassName?: string;
     cmdkInputWrapperClassName?: string;
   }
 >(
@@ -47,7 +47,7 @@ const CommandInput = React.forwardRef<
       cmdkInputWrapperClassName,
       className,
       icon = true,
-      iconClassName,
+      // iconClassName,
       ...props
     },
     ref,

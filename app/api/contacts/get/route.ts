@@ -1,6 +1,7 @@
 import { auth } from "@/auth";
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
+import type { Contact } from "@/utils/types";
 
 export async function GET() {
   console.log("request recieved from frontend");
@@ -47,8 +48,8 @@ export async function GET() {
     const seenPhones = new Set();
 
     const uniqueContacts = response.connections
-      .filter((contact: any) => contact.names && contact.phoneNumbers)
-      .filter((contact: any) => {
+      .filter((contact: Contact) => contact.names && contact.phoneNumbers)
+      .filter((contact: Contact) => {
         const phone = contact.phoneNumbers?.[0]?.value;
 
         if (phone && !seenPhones.has(phone)) {
@@ -57,7 +58,7 @@ export async function GET() {
         }
         return false; // Duplicate found
       })
-      .sort((a: any, b: any) => {
+      .sort((a: Contact, b: Contact) => {
         const nameA = a.names[0]?.displayName?.toLowerCase() || "";
         const nameB = b.names[0]?.displayName?.toLowerCase() || "";
         return nameA.localeCompare(nameB);

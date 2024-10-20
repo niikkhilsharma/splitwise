@@ -82,7 +82,7 @@ const SearchPage = ({
     const { amount } = form.getValues();
 
     // Remove leading zeros using a regular expression
-    let parsedAmount = amount.toString().replace(/^0+/, "");
+    const parsedAmount = amount.toString().replace(/^0+/, "");
     const newAmount = parsedAmount ? parseFloat(parsedAmount) : 0; // Use 0 if the string is empty
 
     const allSplits = [
@@ -116,6 +116,7 @@ const SearchPage = ({
   }
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
+    console.log(data);
     router.push("/");
     toast({
       title: "Expense added successfully 💰",
